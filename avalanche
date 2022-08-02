@@ -28,7 +28,7 @@ def call(cmd, exit_on_fail=True):
         return res
 
 def tc(iface, args):
-    return "tc qdisc add dev %s parent 1:3 handle 30: %s"%(iface, args)
+    return f"tc qdisc add dev {iface} parent 1:3 handle 30: {args}"
 
 def generate_fault():
     """pick a fault from faults uniformly at random with probability p_fault"""
@@ -56,7 +56,7 @@ def clear_faults():
     """undo all currently enabled faults"""
     if settings.debug: return
     for iface in settings.interfaces:
-        call("tc qdisc del dev %s root"%(iface), exit_on_fail=False)
+        call(f"tc qdisc del dev {iface} root", exit_on_fail=False)
 
 def cleanup(active_faults):
     """run on exit"""
